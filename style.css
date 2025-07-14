@@ -1,0 +1,71 @@
+body
+{
+    margin: 0;
+    background-color: azure;
+}
+
+.clock
+{
+    margin: 100px auto;
+    text-align: center;
+    font-size: 70px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+span
+{
+    font-weight: bold;
+}
+
+button
+{
+    display: block;
+    text-align: center;
+    margin: auto auto;
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(211, 211, 211, 0.4);
+    border-left: 1px solid rgba(211, 211, 211, 0.4);
+    border-right: 1px solid rgba(128, 128, 128, 0.3);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+    transition: 0.2s ease-in;
+}
+
+button:hover
+{
+    transform: translateY(-2px);
+    box-shadow: 0 3px 5px 3px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.counter
+{
+    display: block;
+    margin: 50px auto;
+    border-top: 1px solid rgba(129, 129, 129, 0.7);
+    border-bottom: 1px solid rgba(129, 129, 129, 0.7);
+    border-radius: 5px;
+    height: 100px;
+    width: 80%;
+     box-shadow: 
+    inset 0 5px 5px -5px rgba(0, 0, 0, 0.4),  /* cień u góry */
+    inset 0 -5px 5px -5px rgba(0, 0, 0, 0.4); /* cień u dołu */
+    align-items: center;
+}
+
+input
+{
+    width: 100px;
+    height: 50px;
+    margin: 25px 15px;
+    border-radius: 5px;
+    border-top: 1px solid rgba(211, 211, 211, 0.4);
+    border-left: 1px solid rgba(211, 211, 211, 0.4);
+    border-right: 1px solid rgba(128, 128, 128, 0.4);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+}
