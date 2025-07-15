@@ -1,5 +1,6 @@
 const btnAdd = document.getElementById('addCounter')
 const btnTimer = document.getElementById('timer')
+const counterContainer = document.getElementById('counterContainer')
 
 const clock = () =>
 {
@@ -41,7 +42,7 @@ const createCounter = () =>
     div.appendChild(inputTime);
     div.appendChild(inputText);
     div.appendChild(submitButton)
-    document.body.appendChild(div);
+    counterContainer.appendChild(div);
 
     // sprawdzanie czy inputy są puste
     const checkInputs = () => {
@@ -94,8 +95,12 @@ const createCounter = () =>
     })
 }
 
+//stoper
 const startTimer = () =>
 {
+    counterContainer.style.visibility = 'hidden';
+    document.getElementById('addCounter').style.display = 'block';
+
     const div = document.createElement('div');
     div.classList.add('timerDiv');
 
@@ -116,6 +121,33 @@ const startTimer = () =>
     div.appendChild(btnStop);
     div.appendChild(timeArea);
     document.body.appendChild(div);
+
+    let interval;
+    let startTime;
+
+    startRecord = () =>
+    {
+        if(interval) return;
+
+        startTime = Date.now();
+        interval = setInterval(() => {
+            const elapsed = Date.now() - startTime;
+            const minutes = Math.floor(elapsed / (60000));
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            const miliseconds = elapsed % 1000;
+
+            timeArea.textContent = `${minutes}:${seconds}:${miliseconds}`;
+        }, 10)
+    }
+
+    stopRecord = () =>
+    {
+        clearInterval(interval);
+        interval = null;
+    }
+
+    btnStart.addEventListener('click', startRecord);
+    btnStop.addEventListener('click', stopRecord);
 }
 
 btnAdd.addEventListener('click', createCounter);
