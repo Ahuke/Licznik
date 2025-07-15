@@ -23,9 +23,8 @@ span
 
 #addCounter
 {
-    display: block;
+    margin: auto;
     text-align: center;
-    margin: auto auto;
     height: 40px;
     width: 40px;
     border-radius: 5px;
@@ -68,6 +67,29 @@ span
     transition: 1s;
     display: flex;
     flex-direction: row;
+}
+
+.timerDiv
+{
+    margin: 50px auto;
+    border-top: 1px solid rgba(129, 129, 129, 0.7);
+    border-bottom: 1px solid rgba(129, 129, 129, 0.7);
+    border-left: 1px solid rgba(128, 128, 128, 0.2);
+    border-right: 1px solid rgba(128, 128, 128, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    height: 500px;
+    width: 76%;
+    padding-left: 2%;
+    padding-right: 2%;
+     box-shadow: 
+    inset 0 5px 5px -5px rgba(0, 0, 0, 0.4),  /* cień u góry */
+    inset 0 -5px 5px -5px rgba(0, 0, 0, 0.4); /* cień u dołu */
+    align-items: center;
+    backdrop-filter: blur(1px);
+    transition: 1s;
+    display: flex;
+    flex-direction: column;
 }
 
 .counter:hover
@@ -115,9 +137,31 @@ input:hover
     transition: 0.2s ease-in;
 }
 
-.submitCounter:hover
+.submitCounter:hover, #timer:hover
 {
     transform: translateY(-2px);
     box-shadow: 0 3px 5px 3px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+}
+
+#timer
+{
+    margin: auto;
+    text-align: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.6);
+    background-image: url(timer-icon.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(211, 211, 211, 0.4);
+    border-left: 1px solid rgba(211, 211, 211, 0.4);
+    border-right: 1px solid rgba(128, 128, 128, 0.3);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+    transition: 0.2s ease-in;
 }

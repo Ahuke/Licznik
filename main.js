@@ -1,4 +1,5 @@
 const btnAdd = document.getElementById('addCounter')
+const btnTimer = document.getElementById('timer')
 
 const clock = () =>
 {
@@ -93,6 +94,31 @@ const createCounter = () =>
     })
 }
 
+const startTimer = () =>
+{
+    const div = document.createElement('div');
+    div.classList.add('timerDiv');
+
+    const btnStart = document.createElement('button');
+    btnStart.textContent = 'Start'
+
+    const btnRecord = document.createElement('button');
+    btnRecord.textContent = 'Pomiar'
+
+    const btnStop = document.createElement('button');
+    btnStop.textContent = 'Stop'
+
+    const timeArea = document.createElement('div');
+    timeArea.textContent = 'Pomiar czasu: '
+
+    div.appendChild(btnStart);
+    div.appendChild(btnRecord);
+    div.appendChild(btnStop);
+    div.appendChild(timeArea);
+    document.body.appendChild(div);
+}
+
 btnAdd.addEventListener('click', createCounter);
+btnTimer.addEventListener('click', startTimer);
 
 
