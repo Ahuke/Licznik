@@ -1,6 +1,5 @@
 const btnAdd = document.getElementById('addCounter')
 
-
 const clock = () =>
 {
     const time = new Date();
@@ -14,6 +13,7 @@ setInterval(clock, 1000);
 
 const createCounter = () =>
 {
+    //Tworzenie elementów licznika
     const div = document.createElement('div');
     div.classList.add('counter')
     console.log(Date().toString().split('T')[0])
@@ -22,30 +22,77 @@ const createCounter = () =>
     inputDate.type = "date";
     inputDate.min = new Date().toISOString().split('T')[0];
 
-    const submitButton = document.createElement('button');
-    submitButton.classList.add('submitCounter');
-    submitButton.textContent = 'submit';
-
     const inputTime = document.createElement('input');
     inputTime.type = "time";
 
+    const inputText = document.createElement('input');
+    inputText.type = "text";
+    inputText.style.width = '28%'
+    inputText.style.paddingLeft = '1%'
+    inputText.style.paddingRight = '1%'
+
+    const submitButton = document.createElement('button');
+    submitButton.classList.add('submitCounter');
+    submitButton.textContent = 'submit';
+    submitButton.disabled = true;
 
     div.appendChild(inputDate);
     div.appendChild(inputTime);
+    div.appendChild(inputText);
     div.appendChild(submitButton)
     document.body.appendChild(div);
 
-    btnAdd.style.display = "none";
-}
+    // sprawdzanie czy inputy są puste
+    const checkInputs = () => {
+        if (inputDate.value && inputTime.value && inputText.value) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+    };
 
-const submitCounter = () =>
-{
-    
+    // nasluchiwanie zmian w inputach
+    inputDate.addEventListener('input', checkInputs);
+    inputTime.addEventListener('input', checkInputs);
+    inputText.addEventListener('input', checkInputs);
+
+    btnAdd.style.display = "none";
+
+    //funkcja tworząca licznik do wybranej daty
+    submitButton.addEventListener('click', () => {
+        const selectedDate = inputDate.value
+        const selectedTime = inputTime.value
+
+        setInterval(() => {
+        const nowTime = new Date().getTime();
+        const endTime = new Date(`${selectedDate} ${selectedTime}`).getTime();
+        //obliczanie dni, godzin itd.
+        const days = Math.floor((endTime / (1000 * 60 * 60 * 24) - ( nowTime / (1000 * 60 * 60 * 24))));
+        const hours = Math.floor((endTime / (1000 * 60 * 60) - (nowTime / (1000 * 60 * 60))))%24
+        const minutes = Math.floor((endTime / (1000 * 60) - (nowTime / (1000 * 60))))%60
+        const seconds = Math.floor((endTime / 1000 - nowTime / 1000)%60)
+
+        btnAdd.style.display = "block";
+        div.innerHTML = ''
+
+        const title = document.createElement('h2');
+        title.style.padding = '5px';
+        const dates = document.createElement('p');
+
+        title.textContent = `${inputText.value} `
+        dates.innerHTML = `<strong>${days}</strong> dni, 
+        <strong>${hours}</strong> godzin, 
+        <strong>${minutes}</strong> minut, 
+        <strong>${seconds}</strong> sekund <br> do wyznaczonej daty 
+        <strong>${selectedDate}</strong> 
+        <strong>${selectedTime}</strong>`;
+
+        div.appendChild(title);
+        div.appendChild(dates);
+        }, 1000)
+    })
 }
 
 btnAdd.addEventListener('click', createCounter);
-const submitButton = document.getElementsByClassName('submitCounter');
-
-submitButton.addEventListener('click', submitCounter);
 
 

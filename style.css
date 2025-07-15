@@ -49,7 +49,6 @@ span
 
 .counter
 {
-    display: block;
     margin: 50px auto;
     border-top: 1px solid rgba(129, 129, 129, 0.7);
     border-bottom: 1px solid rgba(129, 129, 129, 0.7);
@@ -58,13 +57,17 @@ span
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     height: 100px;
-    width: 80%;
+    width: 76%;
+    padding-left: 2%;
+    padding-right: 2%;
      box-shadow: 
     inset 0 5px 5px -5px rgba(0, 0, 0, 0.4),  /* cień u góry */
     inset 0 -5px 5px -5px rgba(0, 0, 0, 0.4); /* cień u dołu */
     align-items: center;
     backdrop-filter: blur(1px);
     transition: 1s;
+    display: flex;
+    flex-direction: row;
 }
 
 .counter:hover
@@ -75,9 +78,8 @@ span
 
 input
 {
-    width: 100px;
     height: 50px;
-    margin: 25px 15px;
+    margin: 25px auto;
     border-radius: 10px;
     border-top: 1px solid rgba(211, 211, 211, 0.4);
     border-left: 1px solid rgba(211, 211, 211, 0.4);
@@ -98,9 +100,9 @@ input:hover
 .submitCounter
 {
     text-align: center;
-    margin: auto 50px;
+    margin: auto 2%;
     height: 40px;
-    width: 40px;
+    width: 20%;
     border-radius: 10px;
     font-size: 20px;
     font-weight: bold;
@@ -111,7 +113,6 @@ input:hover
     border-right: 1px solid rgba(128, 128, 128, 0.3);
     border-bottom: 1px solid rgba(128, 128, 128, 0.3);
     transition: 0.2s ease-in;
-    width: fit-content;
 }
 
 .submitCounter:hover
