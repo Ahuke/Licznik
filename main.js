@@ -15,6 +15,7 @@ setInterval(clock, 1000);
 
 const createCounter = () =>
 {
+    counterContainer.style.display = 'block';
     //Tworzenie elementów licznika
     const div = document.createElement('div');
     div.classList.add('counter')
@@ -42,7 +43,8 @@ const createCounter = () =>
     div.appendChild(inputTime);
     div.appendChild(inputText);
     div.appendChild(submitButton)
-    counterContainer.appendChild(div);
+    //counterContainer.appendChild(div);
+    counterContainer.insertBefore(div, counterContainer.firstChild);
 
     // sprawdzanie czy inputy są puste
     const checkInputs = () => {
@@ -98,7 +100,14 @@ const createCounter = () =>
 //stoper
 const startTimer = () =>
 {
-    counterContainer.style.visibility = 'hidden';
+    const counterContainer = document.getElementById('counterContainer');
+    const topDiv = counterContainer.firstElementChild;
+    if(topDiv && (!topDiv.children[0]?.value.trim() || !topDiv.children[1]?.value.trim() || !topDiv.children[2]?.value.trim())) // ? - sprawdzanie czy istnieje  trim() = sprawdzanie czy pole jest puste, usuwa niepotrzebne spacje
+    {
+        topDiv.remove();
+    }
+
+    counterContainer.style.display = 'none';
     document.getElementById('addCounter').style.display = 'block';
 
     const div = document.createElement('div');
@@ -109,44 +118,107 @@ const startTimer = () =>
 
     const btnRecord = document.createElement('button');
     btnRecord.textContent = 'Pomiar'
+    btnRecord.disabled = true
 
     const btnStop = document.createElement('button');
     btnStop.textContent = 'Stop'
+    btnStop.disabled = true
 
     const timeArea = document.createElement('div');
     timeArea.textContent = 'Pomiar czasu: '
 
+    const divRecords = document.createElement('div');
+
     div.appendChild(btnStart);
-    div.appendChild(btnRecord);
-    div.appendChild(btnStop);
-    div.appendChild(timeArea);
     document.body.appendChild(div);
 
     let interval;
     let startTime;
+    let currentTime;
+    let elapsedBeforePause = 0; //potrzebne do wznawiania
+    let recordCount = 1;
 
     startRecord = () =>
-    {
+    {       
+        btnRecord.disabled = false
+        btnStop.disabled = false
+
+        if (btnStart.textContent === "Restart") 
+        {
+            clearInterval(interval);
+
+            interval = null;
+            elapsedBeforePause = 0;
+            startTime = null;
+
+            timeArea.textContent = "Pomiar czasu: 0:0:0";
+            btnStart.textContent = "Start";
+
+            div.children[3]?.remove();
+            div.children[2]?.remove();
+            div.children[1]?.remove();  
+
+            recordCount = 1;
+
+            return;
+        }
+
         if(interval) return;
 
-        startTime = Date.now();
+        div.appendChild(btnRecord);
+        div.appendChild(btnStop);
+        div.appendChild(timeArea);
+
+
+        startTime = Date.now() - elapsedBeforePause;
+
         interval = setInterval(() => {
             const elapsed = Date.now() - startTime;
             const minutes = Math.floor(elapsed / (60000));
             const seconds = Math.floor((elapsed % 60000) / 1000);
             const miliseconds = elapsed % 1000;
 
-            timeArea.textContent = `${minutes}:${seconds}:${miliseconds}`;
+            currentTime = timeArea.textContent = `${minutes}:${seconds}:${miliseconds}`;
         }, 10)
+            
+        btnStart.textContent = "Restart"
+    }
+
+    recordInterwal = () =>
+    {   
+        if (!startTime) return;
+        const record = document.createElement('p');
+        record.textContent = `Pomiar ${recordCount}: ${currentTime}`
+
+        recordCount++;
+
+        div.appendChild(divRecords);
+        divRecords.appendChild(record);
     }
 
     stopRecord = () =>
     {
-        clearInterval(interval);
-        interval = null;
+        if (!startTime) return;
+        if(btnStop.textContent == "Stop")
+        {
+            btnStop.textContent = "Renew"
+
+            elapsedBeforePause = Date.now() - startTime;
+
+            clearInterval(interval);
+            interval = null;
+        }
+        else if(btnStop.textContent == "Renew")
+        {
+            btnStop.textContent = "Stop";
+
+            btnStart.textContent = "Start";
+            startRecord();
+        }
     }
 
     btnStart.addEventListener('click', startRecord);
+    btnRecord.addEventListener('click', recordInterwal);
     btnStop.addEventListener('click', stopRecord);
 }
 
