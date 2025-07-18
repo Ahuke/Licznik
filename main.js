@@ -141,21 +141,21 @@ const startTimer = () =>
 
     const btnStart = document.createElement('button');
     btnStart.textContent = 'Start'
-    btnStart.classList.add('timerButton');
+    btnStart.classList.add('timerButton', 'fall-in');
 
     const btnRecord = document.createElement('button');
     btnRecord.textContent = 'Pomiar'
     btnRecord.disabled = true
-    btnRecord.classList.add('timerButton');
+    btnRecord.classList.add('timerButton', 'fall-in');
 
     const btnStop = document.createElement('button');
     btnStop.textContent = 'Stop'
     btnStop.disabled = true
-    btnStop.classList.add('timerButton');
+    btnStop.classList.add('timerButton', 'fall-in');
 
     const timeArea = document.createElement('div');
     timeArea.textContent = 'Pomiar czasu: '
-    timeArea.classList.add('timeText');
+    timeArea.classList.add('timeText', 'fall-in');
     timeArea.style.fontSize = '30px';
 
     const divRecords = document.createElement('div');
@@ -163,7 +163,7 @@ const startTimer = () =>
 
     const leftSide = document.createElement('div');
     div.appendChild(leftSide);
-    leftSide.classList.add('leftSide');
+    leftSide.classList.add('leftSide', 'fall-in');
 
     leftSide.appendChild(btnStart);
     document.body.appendChild(div);
