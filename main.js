@@ -15,6 +15,14 @@ setInterval(clock, 1000);
 
 const createCounter = () =>
 {
+    const exisitingTimerDiv = document.querySelector('.timerDiv');
+    if(exisitingTimerDiv)
+    {
+        exisitingTimerDiv.remove();
+    }
+
+    btnTimer.style.display = 'block';
+
     counterContainer.style.display = 'block';
     //Tworzenie elementów licznika
     const div = document.createElement('div');
@@ -76,8 +84,7 @@ const createCounter = () =>
         const minutes = Math.floor((endTime / (1000 * 60) - (nowTime / (1000 * 60))))%60
         const seconds = Math.floor((endTime / 1000 - nowTime / 1000)%60)
 
-        btnAdd.style.display = "block";
-        div.innerHTML = ''
+        div.innerHTML = '' //czyszczenie diva przed dodaniem nowych elementów
 
         const title = document.createElement('h2');
         title.style.padding = '5px';
@@ -94,7 +101,17 @@ const createCounter = () =>
         div.appendChild(title);
         div.appendChild(dates);
         }, 1000)
+
+        btnAdd.style.display = "block";
     })
+}
+
+function removeWithSlideOut(el, cb) { //animacja usuwania elementu
+  el.classList.add('slide-out');
+  el.addEventListener('animationend', () => {
+    el.remove();
+    if (cb) cb();
+  }, { once: true });
 }
 
 //stoper
@@ -102,11 +119,20 @@ const startTimer = () =>
 {
     const counterContainer = document.getElementById('counterContainer');
     const topDiv = counterContainer.firstElementChild;
-    if(topDiv && (!topDiv.children[0]?.value.trim() || !topDiv.children[1]?.value.trim() || !topDiv.children[2]?.value.trim())) // ? - sprawdzanie czy istnieje  trim() = sprawdzanie czy pole jest puste, usuwa niepotrzebne spacje
+    if(topDiv && topDiv.children.length === 4 && (!topDiv.children[0]?.value.trim() || !topDiv.children[1]?.value.trim() || !topDiv.children[2]?.value.trim())) // ? - sprawdzanie czy istnieje  trim() = sprawdzanie czy pole jest puste, usuwa niepotrzebne spacje
     {
         topDiv.remove();
     }
 
+    const exisitingTimerDiv = document.querySelector('.timerDiv');
+    if(exisitingTimerDiv)
+    {
+        exisitingTimerDiv.remove();
+    }
+
+    btnTimer.style.display = 'none';
+
+    //tworzenie elementów stopera
     counterContainer.style.display = 'none';
     document.getElementById('addCounter').style.display = 'block';
 
@@ -115,21 +141,31 @@ const startTimer = () =>
 
     const btnStart = document.createElement('button');
     btnStart.textContent = 'Start'
+    btnStart.classList.add('timerButton');
 
     const btnRecord = document.createElement('button');
     btnRecord.textContent = 'Pomiar'
     btnRecord.disabled = true
+    btnRecord.classList.add('timerButton');
 
     const btnStop = document.createElement('button');
     btnStop.textContent = 'Stop'
     btnStop.disabled = true
+    btnStop.classList.add('timerButton');
 
     const timeArea = document.createElement('div');
     timeArea.textContent = 'Pomiar czasu: '
+    timeArea.classList.add('timeText');
+    timeArea.style.fontSize = '30px';
 
     const divRecords = document.createElement('div');
+    divRecords.classList.add('divRecords');
 
-    div.appendChild(btnStart);
+    const leftSide = document.createElement('div');
+    div.appendChild(leftSide);
+    leftSide.classList.add('leftSide');
+
+    leftSide.appendChild(btnStart);
     document.body.appendChild(div);
 
     let interval;
@@ -153,22 +189,24 @@ const startTimer = () =>
 
             timeArea.textContent = "Pomiar czasu: 0:0:0";
             btnStart.textContent = "Start";
+            btnStop.textContent = "Stop"
 
             div.children[3]?.remove();
             div.children[2]?.remove();
-            div.children[1]?.remove();  
+            div.children[1]?.remove();  // usuwanie przycisków przy resecie
 
             recordCount = 1;
+            
+            divRecords.innerHTML = '';
 
             return;
         }
 
         if(interval) return;
 
-        div.appendChild(btnRecord);
-        div.appendChild(btnStop);
-        div.appendChild(timeArea);
-
+        leftSide.appendChild(btnRecord);
+        leftSide.appendChild(btnStop);
+        leftSide.appendChild(timeArea);
 
         startTime = Date.now() - elapsedBeforePause;
 
@@ -188,6 +226,7 @@ const startTimer = () =>
     {   
         if (!startTime) return;
         const record = document.createElement('p');
+        record.classList.add('timeText', 'fall-in');
         record.textContent = `Pomiar ${recordCount}: ${currentTime}`
 
         recordCount++;
